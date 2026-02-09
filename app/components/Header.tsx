@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Search, User, Menu } from "lucide-react";
+import { ChevronDown, Search, User, Menu, X } from "lucide-react";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <nav className="bg-[#00718A]">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-16">
+      <div className="max-w-[1600px] mx-auto px-2 sm:px-2 md:px-2 lg:px-16">
         <div className="font-sans flex items-center justify-around h-[90px]">
           {/* LEFT SECTION */}
           <div className="flex items-center gap-8 lg:gap-14">
@@ -201,11 +201,16 @@ export default function Header() {
 
             {/* HAMBURGER */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="xl:hidden text-white p-2"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
+  onClick={() => setMobileOpen(!mobileOpen)}
+  className="xl:hidden text-white p-2 transition"
+>
+  {mobileOpen ? (
+    <X className="w-6 h-6" />
+  ) : (
+    <Menu className="w-6 h-6" />
+  )}
+</button>
+
           </div>
         </div>
 
