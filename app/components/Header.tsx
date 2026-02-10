@@ -33,7 +33,7 @@ export default function Header() {
               <Link href="#" className="hover:opacity-60">
                 Home
               </Link>
-              <Link href="#" className="hover:opacity-60">
+              <Link href="/about" className="hover:opacity-60">
                 About Us
               </Link>
 
@@ -64,7 +64,7 @@ export default function Header() {
                 </div>
               </div>
 
-              <Link href="#" className="hover:opacity-60">
+              <Link href="/plans" className="hover:opacity-60">
                 Plans
               </Link>
 
@@ -215,7 +215,6 @@ export default function Header() {
         </div>
 
         {/* MOBILE MENU */}
-        {/* MOBILE MENU */}
         {mobileOpen && (
           <div className="xl:hidden fixed inset-0 top-[90px] bg-white z-40 overflow-y-auto">
             {/* Home */}
@@ -270,7 +269,7 @@ export default function Header() {
 
             {/* Plans */}
             <Link
-              href="#"
+              href="/plans"
               className="block px-6 py-5 text-[18px] text-gray-800 border-b"
               onClick={() => setMobileOpen(false)}
             >
