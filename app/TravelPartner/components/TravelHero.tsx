@@ -1,13 +1,7 @@
 export default function PartnerHero() {
   return (
     <section
-      className="
-        relative
-        w-full
-        min-h-[calc(105vh-90px)]
-        overflow-hidden
-        bg-white
-      "
+      className="relative w-full min-h-[calc(105vh-90px)] overflow-hidden bg-white"
     >
       {/* Background Image */}
       <img

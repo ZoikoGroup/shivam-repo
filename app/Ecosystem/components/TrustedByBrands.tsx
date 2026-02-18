@@ -1,4 +1,4 @@
-lxexport default function TrustedByBrands() {
+export default function TrustedByBrands() {
   return (
     <section className="bg-white py-28">
       <div className="max-w-[1500px] mx-auto px-6 lg:px-16">
