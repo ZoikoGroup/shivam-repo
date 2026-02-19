@@ -36,6 +36,7 @@ interface EyeToggleProps {
 
 interface GoogleBtnProps {
   label: string;
+  onClick: () => void;
 }
 
 interface FieldProps {
@@ -81,7 +82,7 @@ function openGoogleLogin(callback: (token: string) => void): void {
   const popup = window.open(
     `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`,
     "Google Login",
-    `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no`,
+    `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no`
   );
 
   const listener = (e: MessageEvent) => {
@@ -99,43 +100,30 @@ function openGoogleLogin(callback: (token: string) => void): void {
 
   window.addEventListener("message", listener);
 }
-// ─────────────────────────────────────────────────────────────────────────────
 
-// ─── Modal ────────────────────────────────────────────────────────────────────
+// ─── Sub-components (defined OUTSIDE AuthPanel to prevent remounting) ─────────
+
 const Modal: FC<ModalProps> = ({ open, onClose, title, children }) => {
   if (!open) return null;
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
-      style={{
-        backgroundColor: "rgba(0,0,0,0.45)",
-        backdropFilter: "blur(4px)",
-      }}
+      style={{ backgroundColor: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}
       onClick={onClose}
     >
       <div
         className="bg-white rounded-2xl shadow-2xl w-full max-w-[680px] max-h-[82vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex items-center justify-between px-7 py-5 border-b border-gray-100">
           <h2 className="text-[18px] font-bold text-gray-900">{title}</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-700 transition-colors"
-            aria-label="Close modal"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 transition-colors" aria-label="Close modal">
             <HiX size={22} />
           </button>
         </div>
-
-        {/* Body */}
         <div className="overflow-y-auto px-7 py-6 text-[14px] text-gray-600 leading-relaxed space-y-5">
           {children}
         </div>
-
-        {/* Footer */}
         <div className="px-7 py-4 border-t border-gray-100 flex justify-end">
           <button
             onClick={onClose}
@@ -156,13 +144,92 @@ const Section: FC<SectionProps> = ({ title, children }) => (
     <p>{children}</p>
   </div>
 );
-// ─────────────────────────────────────────────────────────────────────────────
+
+// ✅ All UI sub-components are outside AuthPanel — no remounting on state change
+
+const EyeToggle: FC<EyeToggleProps> = ({ show, toggle }) => (
+  <button
+    type="button"
+    onClick={toggle}
+    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+    aria-label={show ? "Hide password" : "Show password"}
+  >
+    {show ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+  </button>
+);
+
+const GoogleBtn: FC<GoogleBtnProps> = ({ label, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="w-full h-[50px] bg-white border-2 border-gray-200 rounded-xl flex items-center justify-center gap-3 font-semibold text-[14.5px] text-gray-700 hover:bg-gray-50 active:scale-[.98] transition-all shadow-sm"
+  >
+    <FcGoogle size={22} />
+    {label}
+  </button>
+);
+
+const Field: FC<FieldProps> = ({ label, type = "text" }) => (
+  <div>
+    <label className="block text-[13px] font-semibold mb-1.5" style={{ color: "#0C7687" }}>
+      {label}
+    </label>
+    <input
+      type={type}
+      className="w-full h-[48px] px-4 rounded-xl border border-gray-200 text-gray-700 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#0C7687] bg-white shadow-sm transition"
+    />
+  </div>
+);
+
+const PasswordField: FC<PasswordFieldProps> = ({ label, show, toggle }) => (
+  <div>
+    <label className="block text-[13px] font-semibold mb-1.5" style={{ color: "#0C7687" }}>
+      {label}
+    </label>
+    <div className="relative">
+      <input
+        type={show ? "text" : "password"}
+        className="w-full h-[48px] px-4 pr-12 rounded-xl border border-gray-200 text-gray-700 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#0C7687] bg-white shadow-sm transition"
+      />
+      <EyeToggle show={show} toggle={toggle} />
+    </div>
+  </div>
+);
+
+const PrimaryBtn: FC<PrimaryBtnProps> = ({ label, onClick, type = "submit" }) => (
+  <button
+    type={type}
+    onClick={onClick}
+    className="w-full h-[50px] rounded-xl font-bold text-[15.5px] text-white hover:opacity-90 active:scale-[.98] transition-all"
+    style={{ backgroundColor: "#1E6B62" }}
+  >
+    {label}
+  </button>
+);
+
+const TextLink: FC<TextLinkProps> = ({ label, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="font-semibold hover:underline transition-all"
+    style={{ color: "#0C7687" }}
+  >
+    {label}
+  </button>
+);
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
+const tabs: { key: Tab; label: string }[] = [
+  { key: "login", label: "Login" },
+  { key: "register", label: "Register" },
+  { key: "reset", label: "Reset Password" },
+];
 
 export default function AuthPanel() {
   const [activeTab, setActiveTab] = useState<Tab>("login");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [resetStep, setResetStep] = useState<1 | 2>(1);
   const [modal, setModal] = useState<ModalType>(null);
   const [googleUser, setGoogleUser] = useState<GoogleUser | null>(null);
@@ -183,102 +250,10 @@ export default function AuthPanel() {
         .then((user: GoogleUser) => {
           setGoogleUser(user);
           console.log("Logged in as:", user);
-          // TODO: send token or user to your backend
         })
         .catch(console.error);
     });
   };
-
-  // ── Sub-components ───────────────────────────────────────────────────────
-
-  const EyeToggle: FC<EyeToggleProps> = ({ show, toggle }) => (
-    <button
-      type="button"
-      onClick={toggle}
-      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-      aria-label={show ? "Hide password" : "Show password"}
-    >
-      {show ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-    </button>
-  );
-
-  const GoogleBtn: FC<GoogleBtnProps> = ({ label }) => (
-    <button
-      type="button"
-      onClick={handleGoogleAuth}
-      className="w-full h-[50px] bg-white border-2 border-gray-200 rounded-xl flex items-center justify-center gap-3 font-semibold text-[14.5px] text-gray-700 hover:bg-gray-50 active:scale-[.98] transition-all shadow-sm"
-    >
-      <FcGoogle size={22} />
-      {label}
-    </button>
-  );
-
-  const Field: FC<FieldProps> = ({ label, type = "text" }) => (
-    <div>
-      <label
-        className="block text-[13px] font-semibold mb-1.5"
-        style={{ color: "#0C7687" }}
-      >
-        {label}
-      </label>
-      <input
-        type={type}
-        className="w-full h-[48px] px-4 rounded-xl border border-gray-200 text-gray-700 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#0C7687] bg-white shadow-sm transition"
-      />
-    </div>
-  );
-
-  const PasswordField: FC<PasswordFieldProps> = ({ label, show, toggle }) => (
-    <div>
-      <label
-        className="block text-[13px] font-semibold mb-1.5"
-        style={{ color: "#0C7687" }}
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          type={show ? "text" : "password"}
-          className="w-full h-[48px] px-4 pr-12 rounded-xl border border-gray-200 text-gray-700 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#0C7687] bg-white shadow-sm transition"
-        />
-        <EyeToggle show={show} toggle={toggle} />
-      </div>
-    </div>
-  );
-
-  const PrimaryBtn: FC<PrimaryBtnProps> = ({
-    label,
-    onClick,
-    type = "submit",
-  }) => (
-    <button
-      type={type}
-      onClick={onClick}
-      className="w-full h-[50px] rounded-xl font-bold text-[15.5px] text-white hover:opacity-90 active:scale-[.98] transition-all"
-      style={{ backgroundColor: "#1E6B62" }}
-    >
-      {label}
-    </button>
-  );
-
-  const TextLink: FC<TextLinkProps> = ({ label, onClick }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className="font-semibold hover:underline transition-all"
-      style={{ color: "#0C7687" }}
-    >
-      {label}
-    </button>
-  );
-
-  const tabs: { key: Tab; label: string }[] = [
-    { key: "login", label: "Login" },
-    { key: "register", label: "Register" },
-    { key: "reset", label: "Reset Password" },
-  ];
-
-  // ─────────────────────────────────────────────────────────────────────────
 
   return (
     <>
@@ -296,30 +271,20 @@ export default function AuthPanel() {
             />
             <div
               className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 55%)",
-              }}
+              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 55%)" }}
             />
           </div>
 
           {/* ── RIGHT: forms ── */}
           <div className="p-8 sm:p-12 lg:p-14 flex flex-col justify-center overflow-y-auto">
+
             {/* Google user banner */}
             {googleUser && (
               <div className="mb-5 flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-4 py-3">
-                <img
-                  src={googleUser.picture}
-                  alt={googleUser.name}
-                  className="w-8 h-8 rounded-full"
-                />
+                <img src={googleUser.picture} alt={googleUser.name} className="w-8 h-8 rounded-full" />
                 <div>
-                  <p className="text-[13px] font-semibold text-green-800">
-                    Signed in as {googleUser.name}
-                  </p>
-                  <p className="text-[12px] text-green-600">
-                    {googleUser.email}
-                  </p>
+                  <p className="text-[13px] font-semibold text-green-800">Signed in as {googleUser.name}</p>
+                  <p className="text-[12px] text-green-600">{googleUser.email}</p>
                 </div>
                 <button
                   onClick={() => setGoogleUser(null)}
@@ -351,44 +316,27 @@ export default function AuthPanel() {
             {/* ════ LOGIN ════ */}
             {activeTab === "login" && (
               <>
-                <h3 className="text-[28px] font-bold text-gray-900">
-                  Welcome back!
-                </h3>
+                <h3 className="text-[28px] font-bold text-gray-900">Welcome back!</h3>
                 <p className="mt-1.5 mb-6 text-[14px] text-gray-500">
                   Enter your credentials to access your account.
                 </p>
-                <form
-                  className="space-y-4"
-                  onSubmit={(e: FormEvent<HTMLFormElement>) =>
-                    e.preventDefault()
-                  }
-                >
+                <form className="space-y-4" onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}>
                   <Field label="Username or Email Address" />
                   <PasswordField
                     label="Password"
                     show={showPassword}
                     toggle={() => setShowPassword((p) => !p)}
                   />
-                  <GoogleBtn label="Login with Google" />
+                  <GoogleBtn label="Login with Google" onClick={handleGoogleAuth} />
                   <div className="flex items-center gap-2.5 text-[13px] text-gray-600">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 rounded"
-                      style={{ accentColor: "#0C7687" }}
-                    />
+                    <input type="checkbox" className="w-4 h-4 rounded" style={{ accentColor: "#0C7687" }} />
                     <span>Remember for 30 days</span>
                   </div>
                   <PrimaryBtn label="Log In" />
                   <div className="text-center text-[13px] pt-1 flex items-center justify-center gap-2">
-                    <TextLink
-                      label="Forgot Password?"
-                      onClick={() => switchTab("reset")}
-                    />
+                    <TextLink label="Forgot Password?" onClick={() => switchTab("reset")} />
                     <span className="text-gray-300">|</span>
-                    <TextLink
-                      label="Create Account"
-                      onClick={() => switchTab("register")}
-                    />
+                    <TextLink label="Create Account" onClick={() => switchTab("register")} />
                   </div>
                 </form>
               </>
@@ -397,18 +345,11 @@ export default function AuthPanel() {
             {/* ════ REGISTER ════ */}
             {activeTab === "register" && (
               <>
-                <h3 className="text-[28px] font-bold text-gray-900">
-                  Create account
-                </h3>
+                <h3 className="text-[28px] font-bold text-gray-900">Create account</h3>
                 <p className="mt-1.5 mb-6 text-[14px] text-gray-500">
                   Join Zoiko Orbit and stay connected everywhere.
                 </p>
-                <form
-                  className="space-y-4"
-                  onSubmit={(e: FormEvent<HTMLFormElement>) =>
-                    e.preventDefault()
-                  }
-                >
+                <form className="space-y-4" onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}>
                   <div className="grid grid-cols-2 gap-3">
                     <Field label="First Name" />
                     <Field label="Last Name" />
@@ -425,7 +366,7 @@ export default function AuthPanel() {
                     show={showConfirmPassword}
                     toggle={() => setShowConfirmPassword((p) => !p)}
                   />
-                  <GoogleBtn label="Sign up with Google" />
+                  <GoogleBtn label="Sign up with Google" onClick={handleGoogleAuth} />
                   <div className="flex items-start gap-2.5 text-[13px] text-gray-600">
                     <input
                       type="checkbox"
@@ -456,10 +397,7 @@ export default function AuthPanel() {
                   <PrimaryBtn label="Create Account" />
                   <p className="text-center text-[13px] text-gray-500 pt-1">
                     Already have an account?{" "}
-                    <TextLink
-                      label="Log In"
-                      onClick={() => switchTab("login")}
-                    />
+                    <TextLink label="Log In" onClick={() => switchTab("login")} />
                   </p>
                 </form>
               </>
@@ -470,9 +408,7 @@ export default function AuthPanel() {
               <>
                 {resetStep === 1 ? (
                   <>
-                    <h3 className="text-[28px] font-bold text-gray-900">
-                      Reset password
-                    </h3>
+                    <h3 className="text-[28px] font-bold text-gray-900">Reset password</h3>
                     <p className="mt-1.5 mb-6 text-[14px] text-gray-500">
                       Enter your email and we'll send you a reset link.
                     </p>
@@ -487,10 +423,7 @@ export default function AuthPanel() {
                       <PrimaryBtn label="Send Reset Link" />
                       <p className="text-center text-[13px] text-gray-500 pt-1">
                         Remember your password?{" "}
-                        <TextLink
-                          label="Log In"
-                          onClick={() => switchTab("login")}
-                        />
+                        <TextLink label="Log In" onClick={() => switchTab("login")} />
                       </p>
                     </form>
                   </>
@@ -502,17 +435,10 @@ export default function AuthPanel() {
                     >
                       <MdOutlineEmail size={38} color="#1E6B62" />
                     </div>
-                    <BsCheckCircleFill
-                      size={24}
-                      color="#1E6B62"
-                      className="mb-3"
-                    />
-                    <h3 className="text-[24px] font-bold text-gray-900 mb-2">
-                      Check your inbox
-                    </h3>
+                    <BsCheckCircleFill size={24} color="#1E6B62" className="mb-3" />
+                    <h3 className="text-[24px] font-bold text-gray-900 mb-2">Check your inbox</h3>
                     <p className="text-[14px] text-gray-500 max-w-[280px] leading-relaxed mb-6">
-                      We've sent a password reset link to your email. It may
-                      take a minute to arrive.
+                      We've sent a password reset link to your email. It may take a minute to arrive.
                     </p>
                     <button
                       type="button"
@@ -523,11 +449,7 @@ export default function AuthPanel() {
                       <HiArrowLeft size={14} />
                       Didn't receive it? Resend
                     </button>
-                    <PrimaryBtn
-                      label="Back to Login"
-                      type="button"
-                      onClick={() => switchTab("login")}
-                    />
+                    <PrimaryBtn label="Back to Login" type="button" onClick={() => switchTab("login")} />
                   </div>
                 )}
               </>
@@ -537,149 +459,81 @@ export default function AuthPanel() {
       </section>
 
       {/* ════ TERMS OF SERVICE MODAL ════ */}
-      <Modal
-        open={modal === "terms"}
-        onClose={() => setModal(null)}
-        title="Terms of Service"
-      >
+      <Modal open={modal === "terms"} onClose={() => setModal(null)} title="Terms of Service">
         <p className="text-[13px] text-gray-400">Last updated: February 2026</p>
         <Section title="1. Acceptance of Terms">
-          By accessing or using Zoiko Orbit™ services, you confirm that you are
-          at least 18 years of age and agree to be bound by these Terms of
-          Service. If you do not agree, please discontinue use immediately.
+          By accessing or using Zoiko Orbit™ services, you confirm that you are at least 18 years of age and agree to be bound by these Terms of Service. If you do not agree, please discontinue use immediately.
         </Section>
         <Section title="2. Description of Service">
-          Zoiko Orbit™ provides international eSIM connectivity solutions,
-          allowing users to access mobile data services across 150+ countries
-          without physical SIM card swaps. Our services are subject to
-          availability in your region and applicable local regulations.
+          Zoiko Orbit™ provides international eSIM connectivity solutions, allowing users to access mobile data services across 150+ countries without physical SIM card swaps. Our services are subject to availability in your region and applicable local regulations.
         </Section>
         <Section title="3. Account Registration">
-          You must provide accurate, complete, and current information during
-          registration. You are responsible for maintaining the confidentiality
-          of your account credentials and for all activities that occur under
-          your account. Notify us immediately at support@zoikoorbit.com of any
-          unauthorized use.
+          You must provide accurate, complete, and current information during registration. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. Notify us immediately at support@zoikoorbit.com of any unauthorized use.
         </Section>
         <Section title="4. Acceptable Use">
-          You agree not to use the service for any unlawful purpose or in any
-          way that could damage, disable, or impair the service. Prohibited
-          activities include unauthorized network access, transmission of
-          malware, spamming, and any activity that violates applicable laws or
-          regulations.
+          You agree not to use the service for any unlawful purpose or in any way that could damage, disable, or impair the service. Prohibited activities include unauthorized network access, transmission of malware, spamming, and any activity that violates applicable laws or regulations.
         </Section>
         <Section title="5. Payments & Refunds">
-          All charges are billed in advance. Subscription fees are
-          non-refundable except as required by law or at our sole discretion.
-          Data top-ups are non-refundable once activated. We reserve the right
-          to change pricing with 30 days' notice.
+          All charges are billed in advance. Subscription fees are non-refundable except as required by law or at our sole discretion. Data top-ups are non-refundable once activated. We reserve the right to change pricing with 30 days' notice.
         </Section>
         <Section title="6. Data Usage & Fair Use">
-          Your eSIM plan is subject to our Fair Use Policy. Excessive usage that
-          impacts network quality for other users may result in speed throttling
-          or temporary suspension. Specific data caps are outlined in your plan
-          details.
+          Your eSIM plan is subject to our Fair Use Policy. Excessive usage that impacts network quality for other users may result in speed throttling or temporary suspension. Specific data caps are outlined in your plan details.
         </Section>
         <Section title="7. Intellectual Property">
-          All content, trademarks, logos, and technology associated with Zoiko
-          Orbit™ are the exclusive property of Zoiko Orbit Ltd. You may not
-          reproduce, distribute, or create derivative works without express
-          written permission.
+          All content, trademarks, logos, and technology associated with Zoiko Orbit™ are the exclusive property of Zoiko Orbit Ltd. You may not reproduce, distribute, or create derivative works without express written permission.
         </Section>
         <Section title="8. Limitation of Liability">
-          To the maximum extent permitted by law, Zoiko Orbit™ shall not be
-          liable for any indirect, incidental, special, consequential, or
-          punitive damages arising from your use of the service.
+          To the maximum extent permitted by law, Zoiko Orbit™ shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the service.
         </Section>
         <Section title="9. Termination">
-          We reserve the right to suspend or terminate your account at our
-          discretion, with or without notice, for violation of these terms. Upon
-          termination, your right to use the service ceases immediately.
+          We reserve the right to suspend or terminate your account at our discretion, with or without notice, for violation of these terms. Upon termination, your right to use the service ceases immediately.
         </Section>
         <Section title="10. Changes to Terms">
-          We may revise these terms at any time. Continued use of the service
-          after changes constitutes your acceptance of the new terms. We will
-          notify registered users via email of material changes.
+          We may revise these terms at any time. Continued use of the service after changes constitutes your acceptance of the new terms. We will notify registered users via email of material changes.
         </Section>
         <Section title="11. Contact">
-          For questions about these Terms, contact us at: legal@zoikoorbit.com
-          or write to Zoiko Orbit Ltd., 123 Global Street, London, EC1A 1BB,
-          United Kingdom.
+          For questions about these Terms, contact us at: legal@zoikoorbit.com or write to Zoiko Orbit Ltd., 123 Global Street, London, EC1A 1BB, United Kingdom.
         </Section>
       </Modal>
 
       {/* ════ PRIVACY POLICY MODAL ════ */}
-      <Modal
-        open={modal === "privacy"}
-        onClose={() => setModal(null)}
-        title="Privacy Policy"
-      >
+      <Modal open={modal === "privacy"} onClose={() => setModal(null)} title="Privacy Policy">
         <p className="text-[13px] text-gray-400">Last updated: February 2026</p>
         <Section title="1. Introduction">
-          Zoiko Orbit™ ("we", "us", "our") is committed to protecting your
-          personal information. This Privacy Policy explains how we collect,
-          use, disclose, and safeguard your data when you use our services.
+          Zoiko Orbit™ ("we", "us", "our") is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you use our services.
         </Section>
         <Section title="2. Information We Collect">
-          We collect information you provide directly: name, email address,
-          phone number, billing information, and account preferences. We also
-          automatically collect device information, IP addresses, usage data,
-          and location data (country-level) to provide connectivity services.
+          We collect information you provide directly: name, email address, phone number, billing information, and account preferences. We also automatically collect device information, IP addresses, usage data, and location data (country-level) to provide connectivity services.
         </Section>
         <Section title="3. How We Use Your Information">
-          Your data is used to: provide and improve our eSIM services, process
-          payments, send transactional and promotional communications (with your
-          consent), detect and prevent fraud, comply with legal obligations, and
-          personalise your experience on our platform.
+          Your data is used to: provide and improve our eSIM services, process payments, send transactional and promotional communications (with your consent), detect and prevent fraud, comply with legal obligations, and personalise your experience on our platform.
         </Section>
         <Section title="4. Sharing of Information">
-          We do not sell your personal data. We may share data with trusted
-          third-party providers (payment processors, network carriers, analytics
-          tools) strictly for service delivery. All partners are bound by data
-          processing agreements aligned with GDPR and applicable regulations.
+          We do not sell your personal data. We may share data with trusted third-party providers (payment processors, network carriers, analytics tools) strictly for service delivery. All partners are bound by data processing agreements aligned with GDPR and applicable regulations.
         </Section>
         <Section title="5. Google Login & Third-Party Auth">
-          If you choose to sign in via Google, we receive your name, email, and
-          profile picture from Google. We do not store your Google password.
-          Your use of Google Sign-In is also subject to Google's Privacy Policy
-          at policies.google.com/privacy.
+          If you choose to sign in via Google, we receive your name, email, and profile picture from Google. We do not store your Google password. Your use of Google Sign-In is also subject to Google's Privacy Policy at policies.google.com/privacy.
         </Section>
         <Section title="6. Cookies & Tracking">
-          We use essential cookies for session management and optional analytics
-          cookies to improve our service. You may control cookie preferences
-          through your browser settings. Disabling certain cookies may affect
-          functionality.
+          We use essential cookies for session management and optional analytics cookies to improve our service. You may control cookie preferences through your browser settings. Disabling certain cookies may affect functionality.
         </Section>
         <Section title="7. Data Retention">
-          We retain your personal data for as long as your account is active or
-          as needed to provide services. After account deletion, data is purged
-          within 90 days unless retention is required by law.
+          We retain your personal data for as long as your account is active or as needed to provide services. After account deletion, data is purged within 90 days unless retention is required by law.
         </Section>
         <Section title="8. Your Rights">
-          Depending on your jurisdiction, you may have the right to: access your
-          personal data, correct inaccurate data, request deletion, object to
-          processing, and data portability. Submit requests to
-          privacy@zoikoorbit.com.
+          Depending on your jurisdiction, you may have the right to: access your personal data, correct inaccurate data, request deletion, object to processing, and data portability. Submit requests to privacy@zoikoorbit.com.
         </Section>
         <Section title="9. Data Security">
-          We implement industry-standard security measures including TLS
-          encryption, hashed passwords, and regular security audits. However, no
-          method of transmission over the internet is 100% secure.
+          We implement industry-standard security measures including TLS encryption, hashed passwords, and regular security audits. However, no method of transmission over the internet is 100% secure.
         </Section>
         <Section title="10. Children's Privacy">
-          Our services are not directed to individuals under 18. We do not
-          knowingly collect personal information from minors. If we discover
-          such data has been collected, it will be promptly deleted.
+          Our services are not directed to individuals under 18. We do not knowingly collect personal information from minors. If we discover such data has been collected, it will be promptly deleted.
         </Section>
         <Section title="11. International Transfers">
-          Your data may be processed in countries outside your own. We ensure
-          adequate protection through standard contractual clauses and
-          compliance with applicable data transfer regulations.
+          Your data may be processed in countries outside your own. We ensure adequate protection through standard contractual clauses and compliance with applicable data transfer regulations.
         </Section>
         <Section title="12. Contact">
-          For privacy-related queries, contact our Data Protection Officer at:
-          privacy@zoikoorbit.com or Zoiko Orbit Ltd., 123 Global Street, London,
-          EC1A 1BB, United Kingdom.
+          For privacy-related queries, contact our Data Protection Officer at: privacy@zoikoorbit.com or Zoiko Orbit Ltd., 123 Global Street, London, EC1A 1BB, United Kingdom.
         </Section>
       </Modal>
     </>

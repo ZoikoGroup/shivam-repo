@@ -1,14 +1,6 @@
 export default function StayConnectedHero() {
   return (
-    <section
-      className="
-        relative
-        w-full
-        min-h-[calc(105vh-90px)]
-        overflow-hidden
-        bg-white
-      "
-    >
+    <section className="relative w-full min-h-[calc(105vh-90px)] overflow-hidden bg-white">
       {/* Background Image */}
       <img
         src="/stay-hero.png" // replace with your image
@@ -32,20 +24,7 @@ export default function StayConnectedHero() {
             welfare.
           </p>
 
-          <button
-            className="
-              mt-8
-              bg-[#4B6FBF]
-              hover:bg-[#3f61aa]
-              transition
-              text-white
-              px-8
-              py-4
-              rounded-xl
-              text-[16px]
-              font-semibold
-            "
-          >
+          <button className="mt-8 bg-[#4B6FBF] hover:bg-[#3f61aa] transition text-white px-8 py-4 rounded-xl text-[16px] font-semibold">
             Get Your eSIM
           </button>
         </div>
