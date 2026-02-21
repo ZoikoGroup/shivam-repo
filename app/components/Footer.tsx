@@ -330,7 +330,7 @@ export default function Footer() {
         {/* Close Button */}
         <button
           onClick={() => setOpenPanel(false)}
-          className="absolute top-5 right-5 text-gray-500 hover:text-gray-800 text-[20px] font-bold transition-colors"
+          className="absolute top-5 right-5 text-gray-500 hover:text-gray-700 text-[20px] font-bold transition-colors"
           aria-label="Close panel"
         >
           ✕
