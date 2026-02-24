@@ -11,7 +11,7 @@ export default function BusinessHero() {
     >
       {/* Background Image */}
       <img
-        src="/bus-hero.png" // replace with your image
+        src="/bus-hero.png"
         alt="Enterprise connectivity solutions"
         className="absolute inset-0 w-full h-full object-cover"
       />
@@ -20,7 +20,7 @@ export default function BusinessHero() {
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1600px] mx-auto px-15 lg:px-28 flex items-center min-h-[calc(100vh-90px)]">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-15 lg:px-27.5 flex items-center min-h-[calc(100vh-90px)]">
         <div className="max-w-[720px] text-white">
           <h1 className="text-[32px] md:text-[44px] lg:text-[54px] font-semibold leading-tight">
             Empower Your Teams <br />
