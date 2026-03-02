@@ -1,23 +1,20 @@
 export default function SolutionsBuiltForBusiness() {
   return (
     <section className="relative bg-[#F7FBFE] py-24 overflow-hidden">
-
-
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-16">
-
         {/* HEADER */}
         <div className="text-center mb-16">
           <h2 className="text-[32px] md:text-[40px] font-semibold text-gray-900">
             Solutions Built for Your Business.
           </h2>
           <p className="mt-3 text-[16px] text-gray-600">
-            Scale from a few travelers to global workforce coverage—mix & match programs
+            Scale from a few travelers to global workforce coverage—mix & match
+            programs
           </p>
         </div>
 
         {/* CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-
           {/* CARD 1 */}
           <div>
             <div className="rounded-2xl overflow-hidden shadow-sm">
@@ -95,7 +92,6 @@ export default function SolutionsBuiltForBusiness() {
               Learn More →
             </a>
           </div>
-
         </div>
       </div>
     </section>

@@ -5,7 +5,7 @@ import { ArrowUp } from "lucide-react";
 import { FaWhatsapp, FaXTwitter, FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa6";
 import Link from "next/link";
 
-export default function Footer() {
+export default function Footer2() {
   const [openChat, setOpenChat] = useState<boolean>(false);
   const [openPanel, setOpenPanel] = useState<boolean>(false);
 
@@ -35,22 +35,22 @@ export default function Footer() {
             <h3 className="text-[20px] font-semibold mb-5">Explore</h3>
             <ul className="space-y-3 text-[15px]">
               <li>
-                <Link href="/coverage" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Coverage
                 </Link>
               </li>
               <li>
-                <Link href="/plans" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Plans
                 </Link>
               </li>
               <li>
-                <Link href="/Ecosystem" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Ecosystem
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   About Us
                 </Link>
               </li>
@@ -62,17 +62,17 @@ export default function Footer() {
             <h3 className="text-[20px] font-semibold mb-5">Support & Help</h3>
             <ul className="space-y-3 text-[15px]">
               <li>
-                <Link href="/Support" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Support Center
                 </Link>
               </li>
               <li>
-                <Link href="/FAQ" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link href="/Accessibility" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Accessibility Options
                 </Link>
               </li>
@@ -84,17 +84,17 @@ export default function Footer() {
             <h3 className="text-[20px] font-semibold mb-5">Legal & Privacy</h3>
             <ul className="space-y-3 text-[15px]">
               <li>
-                <Link href="/privacypolicy" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/TermsOfService" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/Cookie" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Cookie Preferences
                 </Link>
               </li>
@@ -106,22 +106,22 @@ export default function Footer() {
             <h3 className="text-[20px] font-semibold mb-5">For Business</h3>
             <ul className="space-y-3 text-[15px]">
               <li>
-                <Link href="/PartnerWithUs" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Partner With Us
                 </Link>
               </li>
               <li>
-                <Link href="/TravelOTA" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Travel Agencies & OTAs
                 </Link>
               </li>
               <li>
-                <Link href="/CorporateTravelSolutions" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Corporate Travel Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/APIIntegration" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   API Integrations
                 </Link>
               </li>
@@ -138,17 +138,17 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-[15px]">
               <li>
-                <Link href="/corporateResponsibility" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Corporate Responsibility
                 </Link>
               </li>
               <li>
-                <Link href="/InvestorRelation" className="hover:opacity-80 transition-opacity">
+                <Link href="# " className="hover:opacity-80 transition-opacity">
                   Investor Relations
                 </Link>
               </li>
               <li>
-                <Link href="/PressMedia" className="hover:opacity-80 transition-opacity">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   Press & Media
                 </Link>
               </li>

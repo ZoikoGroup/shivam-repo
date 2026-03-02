@@ -5,7 +5,7 @@ export default function SupportHighlightSection() {
       {/* Background Image */}
       <div className="relative w-full h-[320px] sm:h-[420px] lg:h-[480px]">
         <img
-          src="/support-bg.png"  // replace with your image
+          src="/support-bg.png" 
           alt="Support"
           className="absolute inset-0 w-full h-full object-cover"
         />

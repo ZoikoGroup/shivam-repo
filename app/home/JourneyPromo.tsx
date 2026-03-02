@@ -37,22 +37,22 @@ export default function JourneyPromo() {
 
             {/* CTA BUTTONS */}
             <div className="mt-10 flex flex-wrap gap-6">
-              <button
+              <a href="/plans"><button
                 className="bg-gradient-to-r from-[#FFB44C] to-[#FFA23A]
-                             text-white px-8 py-4 rounded-full
+                             text-white px-8 py-4 rounded-full cursor-pointer
                              text-[16px] font-semibold hover:opacity-90 transition"
               >
                 Activate Your Orbit eSIM
-              </button>
+              </button></a>
 
-              <button
+              <a href="/PartnerWithUs"><button
                 className="border-2 border-white/70 text-white
                              px-8 py-4 rounded-full
-                             text-[16px] font-semibold
+                             text-[16px] font-semibold cursor-pointer
                              hover:bg-white hover:text-[#00718A] transition"
               >
                 Partner with Us
-              </button>
+              </button></a>
             </div>
 
             {/* STATS */}

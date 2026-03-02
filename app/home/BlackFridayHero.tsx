@@ -44,9 +44,9 @@ export default function BlackFridayHero() {
                 Get Your Black Friday Deal
               </button>
 
-              <button className="w-full sm:w-auto border-2 border-white/70 text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-[14px] sm:text-[15px] font-semibold hover:bg-white hover:text-[#00718A] transition">
+              <a href="/PartnerWithUs"><button className="w-full sm:w-auto cursor-pointer border-2 border-white/70 text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-[14px] sm:text-[15px] font-semibold hover:bg-white hover:text-[#00718A] transition">
                 Partner with Us
-              </button>
+              </button></a>
             </div>
           </div>
 

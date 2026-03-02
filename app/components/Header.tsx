@@ -38,9 +38,9 @@ export default function Header() {
             {/* DESKTOP MENU */}
             <div className="hidden xl:flex items-center gap-9 text-white text-[18px] font-normal py-[13px]">
               <Link
-                href="/"
+                href="/home1"
                 className={`hover:opacity-60 transition-all ${
-                  isActive("/")
+                  isActive("/home1")
                     ? "font-semibold text-[20px] scale-110"
                     : ""
                 }`}

@@ -4,7 +4,7 @@ export default function ImpactHero() {
 
       {/* Background Image */}
       <img
-        src="/impact-hero.png"   // replace with your image
+        src="/impact-hero.png"
         alt="Protecting Our Planet"
         className="absolute inset-0 w-full h-full object-cover"
       />

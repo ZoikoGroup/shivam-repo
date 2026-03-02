@@ -30,7 +30,7 @@ export default function TrustedLeadersSection() {
 
         {/* CTA Card */}
         <div className="mt-12">
-          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#0E4C8A] to-[#1F78C8] p-10 md:p-14 text-center">
+          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#01728B] to-[#0995B3] p-10 md:p-14 text-center">
 
             {/* Decorative outlines */}
             <div className="absolute left-6 top-6 w-20 h-20 border border-white/20 rounded-xl" />

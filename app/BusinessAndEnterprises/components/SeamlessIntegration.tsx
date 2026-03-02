@@ -8,7 +8,7 @@ export default function SeamlessIntegration() {
           {/* LEFT IMAGE */}
           <div className="rounded-2xl overflow-hidden shadow-sm">
             <img
-              src="/se.png"   // replace with your image
+              src="/se.png" 
               alt="Seamless Integration"
               className="w-full h-[420px] object-cover"
             />
