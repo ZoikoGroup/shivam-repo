@@ -20,7 +20,7 @@ export default function PlugIntoSystems() {
           {/* LEFT IMAGE */}
           <div className="rounded-xl overflow-hidden shadow-sm">
             <img
-              src="/plug.png"  // replace with your uploaded image
+              src="/plug.png"
               alt="Plug into existing systems"
               className="w-full h-[380px] object-cover"
             />

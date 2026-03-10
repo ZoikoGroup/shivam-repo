@@ -67,7 +67,7 @@ export default function Footer2() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:opacity-80 transition-opacity">
+                <Link href="/FAQ" className="hover:opacity-80 transition-opacity">
                   FAQs
                 </Link>
               </li>

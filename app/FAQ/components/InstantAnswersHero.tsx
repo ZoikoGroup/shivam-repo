@@ -4,7 +4,7 @@ export default function InstantAnswersHero() {
 
       {/* Background Image */}
       <img
-        src="/faq-hero.png"   // replace with your image name
+        src="/faq-hero.png"
         alt="Instant Answers"
         className="absolute inset-0 w-full h-full object-cover"
       />

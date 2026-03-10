@@ -10,7 +10,7 @@ export default function NeedHelpSection() {
           {/* LEFT IMAGE */}
           <div className="relative h-[420px] lg:h-[520px]">
             <img
-              src="/faq1.png"   // ← replace with your image
+              src="/faq1.png"
               alt="Support Help"
               className="absolute inset-0 w-full h-full object-cover rounded-lg"
             />
@@ -40,7 +40,7 @@ export default function NeedHelpSection() {
                   <img
                     src="/faq2.png"
                     alt="Chat"
-                    className="w-[34px]"
+                    className="w-[60px]"
                   />
                 </div>
 
@@ -48,7 +48,7 @@ export default function NeedHelpSection() {
                   Chat live with our multilingual support agents anytime, anywhere
                 </p>
 
-                <button className="mt-3 text-[#0C7687] font-medium hover:underline">
+                <button className="mt-3 text-[#0C7687] font-medium cursor-pointer">
                   Chat Now →
                 </button>
 
@@ -61,7 +61,7 @@ export default function NeedHelpSection() {
                   <img
                     src="/faq3.png"
                     alt="Video"
-                    className="w-[34px]"
+                    className="w-[60px]"
                   />
                 </div>
 
@@ -69,7 +69,7 @@ export default function NeedHelpSection() {
                   Watch quick-start video tutorials and browse our self-service library
                 </p>
 
-                <button className="mt-3 text-[#0C7687] font-medium hover:underline">
+                <button className="mt-3 text-[#0C7687] font-medium cursor-pointer">
                   Watch Now →
                 </button>
 

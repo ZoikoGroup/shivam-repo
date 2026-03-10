@@ -11,7 +11,7 @@ export default function EnterpriseHero() {
     >
       {/* Background Image */}
       <img
-        src="/hr.png" // replace with your image
+        src="/hr.png"
         alt="Enterprise connectivity solutions"
         className="absolute inset-0 w-full h-full object-cover"
       />
