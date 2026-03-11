@@ -25,8 +25,8 @@ export default function GlobalCoverageSection() {
           <div className="flex justify-center lg:justify-end">
 
             <img
-              src="/world-map.png"   // replace with your actual image
-              alt="Global Coverage Map"
+              src="/world-map.png"
+              alt="Global map showing coverage"
               className="w-full max-w-[650px] object-contain"
             />
 
